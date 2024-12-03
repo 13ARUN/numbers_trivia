@@ -8,6 +8,7 @@ import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_t
 import 'package:numbers_trivia/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/repositories/number_trivia_repository.dart';
+import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_cached_number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,21 +62,48 @@ final randomTriviaprovider = Provider<GetRandomNumberTrivia>(
   },
 );
 
+final cachedTriviaProvider = Provider<GetCachedNumberTrivia>((ref) {
+  final repository = ref.read(triviaRepositoryProvider);
+  return GetCachedNumberTrivia(repository: repository);
+});
+
 final triviaProvider =
     StateNotifierProvider<TriviaNotifier, AsyncValue<NumberTrivia>>((ref) {
   final getConcreteTrivia = ref.read(concreteTriviaprovider);
   final getRandomTrivia = ref.read(randomTriviaprovider);
+  final getCachedTrivia = ref.read(cachedTriviaProvider);
 
-  return TriviaNotifier(getConcreteTrivia, getRandomTrivia);
+  return TriviaNotifier(getConcreteTrivia, getRandomTrivia, getCachedTrivia);
 });
 
 class TriviaNotifier extends StateNotifier<AsyncValue<NumberTrivia>> {
   final GetConcreteNumberTrivia _getConcrete;
   final GetRandomNumberTrivia _getRandom;
+  final GetCachedNumberTrivia _getCached;
 
-  TriviaNotifier(this._getConcrete, this._getRandom)
-      : super(
-            const AsyncValue.data(NumberTrivia(trivia: 'nothing', number: 0)));
+  TriviaNotifier(this._getConcrete, this._getRandom, this._getCached)
+      : super(const AsyncValue.loading()) {
+    // Fetch cached trivia on initialization
+    _fetchCachedTrivia();
+  }
+
+  Future<void> _fetchCachedTrivia() async {
+    try {
+      final result = await _getCached(NoParams());
+      result.fold(
+        (failure) {
+          state = const AsyncValue.data(NumberTrivia(
+              trivia: 'Start Seaching', number: 0)); // No cached data
+        },
+        (trivia) {
+          state = AsyncValue.data(trivia); // Display cached data
+        },
+      );
+    } catch (e) {
+      state = const AsyncValue.data(NumberTrivia(
+          trivia: 'Start Seaching', number: 0)); // Handle unexpected errors
+    }
+  }
 
   Future<void> getConcrete(int num) async {
     state = const AsyncValue.loading();

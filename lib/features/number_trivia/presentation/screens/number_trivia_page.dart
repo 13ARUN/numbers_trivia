@@ -24,15 +24,15 @@ class NumberTriviaPage extends ConsumerWidget {
           children: [
             triviaState.when(
               data: (trivia) {
-                return Card(
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: SizedBox(
-                    height: 200, // Fixed height
-                    child: SingleChildScrollView(
+                return SizedBox(
+                  height: 250,
+                  child: Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,16 +56,19 @@ class NumberTriviaPage extends ConsumerWidget {
                   ),
                 );
               },
-              loading: () => Card(
-                elevation: 4,
-                margin: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const SizedBox(
-                  height: 200, // Fixed height
-                  child: Center(
-                    child: CircularProgressIndicator(),
+              loading: () => SizedBox(
+                height: 250,
+                child: Card(
+                  elevation: 4,
+                  margin: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const SizedBox(
+                    height: 200,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 ),
               ),
@@ -92,18 +95,16 @@ class NumberTriviaPage extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: SizedBox(
-                    height: 200, // Fixed height
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        errorMessage,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      errorMessage,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 );

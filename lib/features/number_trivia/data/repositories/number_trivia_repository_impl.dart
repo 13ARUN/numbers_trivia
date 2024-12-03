@@ -51,4 +51,14 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   Future<Either<Failures, NumberTrivia>> getRandomNumberTrivia() async {
     return await _getTrivia(() => remoteDataSource.getRandomNumberTrivia());
   }
+  
+  @override
+  Future<Either<Failures, NumberTrivia>> getCachedTrivia() async {
+    try {
+      final cachedTrivia = await localDataSource.getlastNumberTrivia();
+      return Right(cachedTrivia);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
 }

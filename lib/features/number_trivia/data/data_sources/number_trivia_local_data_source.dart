@@ -34,4 +34,6 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
       json.encode(triviaToCache.toJson()),
     );
   }
+  
+ 
 }
