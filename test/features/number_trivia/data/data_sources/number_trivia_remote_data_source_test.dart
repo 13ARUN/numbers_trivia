@@ -99,7 +99,7 @@ void main() {
         final url = Uri.parse('http://numbersapi.com/random');
         verify(() => mockHttpClient.get(url, headers: {
               'Content-Type': 'application/json',
-            }));
+            })).called(1);
       },
     );
 

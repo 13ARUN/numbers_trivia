@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:numbers_trivia/core/theme/theme.dart';
-import 'package:numbers_trivia/features/number_trivia/presentation/providers/number_trivia_provider.dart';
+import 'package:numbers_trivia/features/number_trivia/presentation/providers/repository_providers.dart';
 import 'package:numbers_trivia/features/number_trivia/presentation/screens/number_trivia_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

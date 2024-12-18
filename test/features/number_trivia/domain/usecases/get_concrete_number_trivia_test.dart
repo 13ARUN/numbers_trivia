@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart'; // Use mocktail package
+import 'package:numbers_trivia/core/error/failures.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/repositories/number_trivia_repository.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
@@ -38,18 +39,19 @@ void main() {
     verifyNoMoreInteractions(mockNumberTriviaRepository);
   });
 
-  // test('should return failure when the repository fails to get trivia',
-  //     () async {
-  //   // Arrange
-  //   when(() => mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber))
-  //       .thenAnswer((_) async => Left(ServerFailure()));
+  test('should return failure when the repository fails to get trivia',
+      () async {
+    // Arrange
+    when(() => mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber))
+        .thenAnswer((_) async => Left(ServerFailure()));
 
-  //   // Act
-  //   final result = await usecase.execute(tNumber);
+    // Act
+    final result = await usecase(const Params(number: tNumber));
 
-  //   // Assert
-  //   expect(result, Left(ServerFailure()));
-  //   verify(() => mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber)).called(1);
-  //   verifyNoMoreInteractions(mockNumberTriviaRepository);
-  // });
+    // Assert
+    expect(result, Left(ServerFailure()));
+    verify(() => mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber))
+        .called(1);
+    verifyNoMoreInteractions(mockNumberTriviaRepository);
+  });
 }
