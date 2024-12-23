@@ -10,8 +10,8 @@ import 'package:numbers_trivia/features/number_trivia/presentation/providers/rep
 
 final triviaProvider =
     StateNotifierProvider<TriviaNotifier, AsyncValue<NumberTrivia>>((ref) {
-  final getConcreteTrivia = ref.read(concreteTriviaprovider);
-  final getRandomTrivia = ref.read(randomTriviaprovider);
+  final getConcreteTrivia = ref.read(concreteTriviaProvider);
+  final getRandomTrivia = ref.read(randomTriviaProvider);
   final getCachedTrivia = ref.read(cachedTriviaProvider);
 
   return TriviaNotifier(getConcreteTrivia, getRandomTrivia, getCachedTrivia);

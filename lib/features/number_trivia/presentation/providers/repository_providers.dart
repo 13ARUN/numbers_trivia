@@ -11,15 +11,8 @@ import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_concre
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError();
-});
-
-final triviaLocalDataSourceProvider =
-    Provider<NumberTriviaLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return NumberTriviaLocalDataSourceImpl(sharedPreferences: sharedPreferences);
 });
 
 final networkInfoProvider = Provider<NetworkInfo>(
@@ -28,6 +21,12 @@ final networkInfoProvider = Provider<NetworkInfo>(
     return NetworkInfoImpl(connectionChecker: connectionChecker);
   },
 );
+
+final triviaLocalDataSourceProvider =
+    Provider<NumberTriviaLocalDataSource>((ref) {
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+  return NumberTriviaLocalDataSourceImpl(sharedPreferences: sharedPreferences);
+});
 
 final triviaRemoteDataSourceProvider =
     Provider<NumberTriviaRemoteDataSource>((ref) {
@@ -47,14 +46,14 @@ final triviaRepositoryProvider = Provider<NumberTriviaRepository>((ref) {
   );
 });
 
-final concreteTriviaprovider = Provider<GetConcreteNumberTrivia>(
+final concreteTriviaProvider = Provider<GetConcreteNumberTrivia>(
   (ref) {
     final repository = ref.read(triviaRepositoryProvider);
     return GetConcreteNumberTrivia(repository: repository);
   },
 );
 
-final randomTriviaprovider = Provider<GetRandomNumberTrivia>(
+final randomTriviaProvider = Provider<GetRandomNumberTrivia>(
   (ref) {
     final repository = ref.read(triviaRepositoryProvider);
     return GetRandomNumberTrivia(repository: repository);

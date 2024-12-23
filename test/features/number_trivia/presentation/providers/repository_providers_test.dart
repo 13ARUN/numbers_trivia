@@ -36,27 +36,6 @@ void main() {
     });
   });
 
-  // Local Data Source Test
-  group('triviaLocalDataSourceProvider', () {
-    late MockSharedPreferences mockSharedPreferences;
-
-    setUp(() {
-      mockSharedPreferences = MockSharedPreferences();
-      container = ProviderContainer(overrides: [
-        sharedPreferencesProvider.overrideWithValue(mockSharedPreferences),
-      ]);
-    });
-
-    tearDown(() {
-      container.dispose();
-    });
-
-    test('should provide an instance of NumberTriviaLocalDataSourceImpl', () {
-      final localDataSource = container.read(triviaLocalDataSourceProvider);
-      expect(localDataSource, isA<NumberTriviaLocalDataSourceImpl>());
-    });
-  });
-
   // NetworkInfo Test
   group('networkInfoProvider', () {
     late MockInternetConnectionChecker mockConnectionChecker;
@@ -77,6 +56,38 @@ void main() {
     test('should provide an instance of NetworkInfoImpl', () {
       final networkInfo = container.read(networkInfoProvider);
       expect(networkInfo, isA<NetworkInfoImpl>());
+    });
+
+    test('should use the provided InternetConnectionChecker dependency', () {
+      final networkInfoImpl =
+          container.read(networkInfoProvider) as NetworkInfoImpl;
+      expect(networkInfoImpl.connectionChecker, mockConnectionChecker);
+    });
+  });
+
+  // Local Data Source Test
+  group('triviaLocalDataSourceProvider', () {
+    late MockSharedPreferences mockSharedPreferences;
+
+    setUp(() {
+      mockSharedPreferences = MockSharedPreferences();
+      container = ProviderContainer(overrides: [
+        sharedPreferencesProvider.overrideWithValue(mockSharedPreferences),
+      ]);
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
+
+    test('should provide an instance of NumberTriviaLocalDataSourceImpl', () {
+      final localDataSource = container.read(triviaLocalDataSourceProvider);
+      expect(localDataSource, isA<NumberTriviaLocalDataSourceImpl>());
+    });
+    test('should use the provided SharedPreferences dependency', () {
+      final localDataSourceImpl = container.read(triviaLocalDataSourceProvider)
+          as NumberTriviaLocalDataSourceImpl;
+      expect(localDataSourceImpl.sharedPreferences, mockSharedPreferences);
     });
   });
 
@@ -100,6 +111,13 @@ void main() {
     test('should provide an instance of NumberTriviaRemoteDataSourceImpl', () {
       final remoteDataSource = container.read(triviaRemoteDataSourceProvider);
       expect(remoteDataSource, isA<NumberTriviaRemoteDataSourceImpl>());
+    });
+
+    test('should use the provided Http Client dependency', () {
+      final remoteDataSourceImpl =
+          container.read(triviaRemoteDataSourceProvider)
+              as NumberTriviaRemoteDataSourceImpl;
+      expect(remoteDataSourceImpl.client, mockHttpClient);
     });
   });
 
@@ -129,6 +147,14 @@ void main() {
       final repository = container.read(triviaRepositoryProvider);
       expect(repository, isA<NumberTriviaRepositoryImpl>());
     });
+
+    test('should use the provided dependencies', () {
+      final repositoryImpl = container.read(triviaRepositoryProvider)
+          as NumberTriviaRepositoryImpl;
+      expect(repositoryImpl.remoteDataSource, mockRemoteDataSource);
+      expect(repositoryImpl.localDataSource, mockLocalDataSource);
+      expect(repositoryImpl.networkInfo, mockNetworkInfo);
+    });
   });
 
   // UseCase Providers Test
@@ -148,18 +174,21 @@ void main() {
     });
 
     test('should provide an instance of GetConcreteNumberTrivia', () {
-      final getConcrete = container.read(concreteTriviaprovider);
+      final getConcrete = container.read(concreteTriviaProvider);
       expect(getConcrete, isA<GetConcreteNumberTrivia>());
+      expect(getConcrete.repository, mockRepository);
     });
 
     test('should provide an instance of GetRandomNumberTrivia', () {
-      final getRandom = container.read(randomTriviaprovider);
+      final getRandom = container.read(randomTriviaProvider);
       expect(getRandom, isA<GetRandomNumberTrivia>());
+      expect(getRandom.repository, mockRepository);
     });
 
     test('should provide an instance of GetCachedNumberTrivia', () {
       final getCached = container.read(cachedTriviaProvider);
       expect(getCached, isA<GetCachedNumberTrivia>());
+      expect(getCached.repository, mockRepository);
     });
   });
 }
