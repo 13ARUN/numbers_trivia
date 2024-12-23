@@ -8,8 +8,8 @@ import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_t
 import 'package:numbers_trivia/features/number_trivia/data/models/number_trivia_model.dart';
 
 import '../../../../core/fixtures/fixture_reader.dart';
+import '../../../mocks/number_trivia_mocks.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
   late NumberTriviaRemoteDataSourceImpl dataSource;
@@ -40,7 +40,7 @@ void main() {
         NumberTriviaModel.fromJson(json.decode(fixture('trivia.json')));
 
     test(
-      '''should perform a GET request on a URL with number being the 
+      '''should perform a GET request on a URL with number being the
   endpoint with application/json header''',
       () async {
         // Arrange
@@ -87,7 +87,7 @@ void main() {
         NumberTriviaModel.fromJson(json.decode(fixture('trivia.json')));
 
     test(
-      '''should perform a GET request on a URL with number being the 
+      '''should perform a GET request on a URL with number being the
   endpoint with application/json header''',
       () async {
         // Arrange

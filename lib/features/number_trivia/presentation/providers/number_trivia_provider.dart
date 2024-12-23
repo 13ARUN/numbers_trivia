@@ -24,10 +24,10 @@ class TriviaNotifier extends StateNotifier<AsyncValue<NumberTrivia>> {
 
   TriviaNotifier(this._getConcrete, this._getRandom, this._getCached)
       : super(const AsyncValue.loading()) {
-    _fetchCachedTrivia();
+    fetchCachedTrivia();
   }
 
-  Future<void> _fetchCachedTrivia() async {
+  Future<void> fetchCachedTrivia() async {
     try {
       final result = await _getCached(NoParams());
       result.fold(

@@ -3,12 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart'; // Use mocktail package
 import 'package:numbers_trivia/core/error/failures.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/entities/number_trivia.dart';
-import 'package:numbers_trivia/features/number_trivia/domain/repositories/number_trivia_repository.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 
-// Create a Mock class for NumberTriviaRepository using mocktail
-class MockNumberTriviaRepository extends Mock
-    implements NumberTriviaRepository {}
+import '../../../mocks/number_trivia_mocks.dart';
+
 
 void main() {
   late GetConcreteNumberTrivia usecase;

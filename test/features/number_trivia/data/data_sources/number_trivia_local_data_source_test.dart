@@ -5,11 +5,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:numbers_trivia/core/error/exceptions.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_local_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/models/number_trivia_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/fixtures/fixture_reader.dart';
+import '../../../mocks/number_trivia_mocks.dart';
 
-class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 void main() {
   late NumberTriviaLocalDataSourceImpl dataSource;
