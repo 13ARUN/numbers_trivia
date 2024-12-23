@@ -8,7 +8,7 @@ import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_t
 import 'package:numbers_trivia/features/number_trivia/data/models/number_trivia_model.dart';
 
 import '../../../../core/fixtures/fixture_reader.dart';
-import '../../../mocks/number_trivia_mocks.dart';
+import '../../../../core/mocks/core_mocks.dart';
 
 
 void main() {

@@ -9,7 +9,8 @@ import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_concre
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/presentation/providers/repository_providers.dart';
 
-import '../../../mocks/number_trivia_mocks.dart';
+import '../../../../core/mocks/core_mocks.dart';
+import '../../../../core/mocks/number_trivia_mocks.dart';
 
 void main() {
   late ProviderContainer container;

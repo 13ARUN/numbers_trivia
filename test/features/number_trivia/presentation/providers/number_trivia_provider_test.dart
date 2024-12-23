@@ -8,7 +8,7 @@ import 'package:numbers_trivia/features/number_trivia/domain/entities/number_tri
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/presentation/providers/number_trivia_provider.dart';
 
-import '../../../mocks/number_trivia_mocks.dart';
+import '../../../../core/mocks/number_trivia_mocks.dart';
 
 
 
