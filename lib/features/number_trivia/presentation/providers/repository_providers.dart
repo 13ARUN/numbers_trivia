@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:numbers_trivia/core/network/network_info.dart';
+import 'package:numbers_trivia/services/network/network_info.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_local_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_remote_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';

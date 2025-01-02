@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:numbers_trivia/core/network/network_info.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_local_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_remote_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
@@ -8,6 +7,7 @@ import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_cached
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/presentation/providers/repository_providers.dart';
+import 'package:numbers_trivia/services/network/network_info.dart';
 
 import '../../../../core/mocks/core_mocks.dart';
 import '../../../../core/mocks/number_trivia_mocks.dart';

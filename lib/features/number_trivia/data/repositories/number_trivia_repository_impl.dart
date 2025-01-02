@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:numbers_trivia/core/error/exceptions.dart';
 import 'package:numbers_trivia/core/error/failures.dart';
-import 'package:numbers_trivia/core/network/network_info.dart';
+import 'package:numbers_trivia/services/network/network_info.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_local_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_remote_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/models/number_trivia_model.dart';
@@ -51,7 +51,7 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   Future<Either<Failures, NumberTrivia>> getRandomNumberTrivia() async {
     return await _getTrivia(() => remoteDataSource.getRandomNumberTrivia());
   }
-  
+
   @override
   Future<Either<Failures, NumberTrivia>> getCachedTrivia() async {
     try {
