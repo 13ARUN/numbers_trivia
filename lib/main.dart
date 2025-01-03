@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Number Trivia',
       theme: AppTheme.themeData,
+      debugShowCheckedModeBanner: false,
       home: const NumberTriviaPage(),
     );
   }
