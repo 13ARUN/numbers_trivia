@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:numbers_trivia/core/error/exceptions.dart';
 import 'package:numbers_trivia/core/error/failures.dart';
-import 'package:numbers_trivia/services/network/network_info.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_local_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/data_sources/number_trivia_remote_data_source.dart';
 import 'package:numbers_trivia/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/repositories/number_trivia_repository.dart';
+import 'package:numbers_trivia/services/network/network_info.dart';
 
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   final NumberTriviaRemoteDataSource remoteDataSource;
@@ -27,15 +27,19 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
         final remoteTrivia = await getConcreteOrRandom();
         localDataSource.cacheNumberTrivia(remoteTrivia);
         return Right(remoteTrivia);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on TimeoutException catch (e) {
+        return Left(TimeoutFailure(e.message));
+      } on UnauthorizedException catch (e) {
+        return Left(UnauthorizedFailure(e.message));
       }
     } else {
       try {
         final localTrivia = await localDataSource.getlastNumberTrivia();
         return Right(localTrivia);
-      } on CacheException {
-        return Left(CacheFailure());
+      } on CacheException catch (e) {
+        return Left(CacheFailure(e.message));
       }
     }
   }
@@ -57,8 +61,8 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
     try {
       final cachedTrivia = await localDataSource.getlastNumberTrivia();
       return Right(cachedTrivia);
-    } catch (e) {
-      return Left(CacheFailure());
+    } on CacheException catch (e) {
+      return Left(CacheFailure(e.message));
     }
   }
 }

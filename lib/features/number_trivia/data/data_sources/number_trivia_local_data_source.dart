@@ -28,12 +28,21 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   }
 
   @override
-  Future<void> cacheNumberTrivia(NumberTriviaModel triviaToCache) {
-    return sharedPreferences.setString(
-      CACHED_NUMBER_TRIVIA,
-      json.encode(triviaToCache.toJson()),
-    );
+  Future<void> cacheNumberTrivia(NumberTriviaModel triviaToCache) async {
+    try {
+      final success = await sharedPreferences.setString(
+        CACHED_NUMBER_TRIVIA,
+        json.encode(triviaToCache.toJson()),
+      );
+
+      if (!success) {
+        throw CacheException();
+      }
+    } catch (e) {
+      // Catching any other unforeseen exceptions, like storage errors
+      throw CacheException();
+    }
   }
-  
- 
+
+
 }

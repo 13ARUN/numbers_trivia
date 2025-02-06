@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:numbers_trivia/core/error/failures.dart';
 import 'package:numbers_trivia/core/usecases/usecase.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:numbers_trivia/features/number_trivia/domain/usecases/get_cached_number_trivia.dart';
@@ -27,45 +26,36 @@ class TriviaNotifier extends StateNotifier<AsyncValue<NumberTrivia>> {
   }
 
   Future<void> fetchCachedTrivia() async {
-    try {
-      final result = await _getCached(NoParams());
-      result.fold(
-        (failure) {
-          state = const AsyncValue.data(
-              NumberTrivia(trivia: 'Start Seaching', number: 0));
-        },
-        (trivia) {
-          state = AsyncValue.data(trivia);
-        },
-      );
-    } catch (e) {
-      state = AsyncValue.error(CacheFailure(), StackTrace.current);
-    }
+    final result = await _getCached(NoParams());
+    result.fold(
+      (failure) {
+        state = const AsyncValue.data(
+            NumberTrivia(trivia: 'Start Seaching', number: 0));
+      },
+      (trivia) {
+        state = AsyncValue.data(trivia);
+      },
+    );
   }
 
   Future<void> getConcrete(int num) async {
     state = const AsyncValue.loading();
-    try {
-      final result = await _getConcrete(Params(number: num));
-      state = result.fold(
-        (failure) => AsyncValue.error(failure, StackTrace.current),
-        (trivia) => AsyncValue.data(trivia),
-      );
-    } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-    }
+    final result = await _getConcrete(Params(number: num));
+    state = result.fold(
+      (failure) {
+        return AsyncValue.error(failure, StackTrace.current);
+      },
+      (trivia) => AsyncValue.data(trivia),
+    );
   }
 
   Future<void> getRandom() async {
     state = const AsyncValue.loading();
-    try {
-      final result = await _getRandom(NoParams());
-      state = result.fold(
-        (failure) => AsyncValue.error(failure, StackTrace.current),
-        (trivia) => AsyncValue.data(trivia),
-      );
-    } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-    }
+
+    final result = await _getRandom(NoParams());
+    state = result.fold(
+      (failure) => AsyncValue.error(failure, StackTrace.current),
+      (trivia) => AsyncValue.data(trivia),
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:numbers_trivia/core/error/exceptions.dart';
 import 'package:numbers_trivia/features/number_trivia/data/models/number_trivia_model.dart';
-import 'package:http/http.dart' as http;
 
 abstract class NumberTriviaRemoteDataSource {
   /// Calls the http://numbersapi.com/{number} endpoint.
@@ -29,8 +29,12 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
 
     if (response.statusCode == 200) {
       return NumberTriviaModel.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 401) {
+      throw const UnauthorizedException();
+    } else if (response.statusCode == 408) {
+      throw const TimeoutException();
     } else {
-      throw ServerException();
+      throw const ServerException();
     }
   }
 
